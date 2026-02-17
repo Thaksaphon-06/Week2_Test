@@ -1,5 +1,6 @@
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from '../assets/fonts/th-sarabun.js'
+import Swal from 'sweetalert2';
 
 pdfMake.vfs = pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : pdfFonts;
 
@@ -39,6 +40,16 @@ const tableStyle = () => {
 
 
 const pdfPrintPreview = (content) => {
+  Swal.fire({
+    title: 'กำลังเตรียมเอกสาร...',
+    text: 'กรุณารอสักครู่',
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+  
   const pdfDocGenerator = pdfMake.createPdf(content)
   pdfDocGenerator.getBlob((blob) => {
     const pdfPreview = document.getElementById('pdfPreview')
