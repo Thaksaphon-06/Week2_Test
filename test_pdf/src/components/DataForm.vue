@@ -254,7 +254,6 @@ const printPDF = async () => {
       title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
       text: 'โปรดตรวจสอบข้อมูลในแบบฟอร์มอีกครั้ง',
       confirmButtonText: 'ตกลง',
-      confirmButtonColor: '#0D47A2',
     })
     return
   }
