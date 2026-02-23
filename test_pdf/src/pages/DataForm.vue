@@ -267,8 +267,6 @@ try {
     icon: 'success',
     title: 'สร้างเอกสารสำเร็จ',
     text: 'เอกสารถูกสร้างเรียบร้อยแล้ว',
-    confirmButtonText: 'ตกลง',
-    confirmButtonColor: '#0D47A1',
   })
 }
 catch (error) {
@@ -276,8 +274,6 @@ catch (error) {
     icon: 'error',
     title: 'เกิดข้อผิดพลาด',
     text: 'ไม่สามารถสร้างเอกสารได้',
-    confirmButtonText: 'ตกลง',
-    confirmButtonColor: '#0D47A1',
   })  
 }
   
