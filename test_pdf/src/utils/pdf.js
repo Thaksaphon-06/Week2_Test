@@ -40,15 +40,6 @@ const tableStyle = () => {
 
 
 const pdfPrintPreview = (content) => {
-  Swal.fire({
-    title: 'กำลังเตรียมเอกสาร...',
-    text: 'กรุณารอสักครู่',
-    allowOutsideClick: false,
-    showConfirmButton: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
   
   const pdfDocGenerator = pdfMake.createPdf(content)
   pdfDocGenerator.getBlob((blob) => {
@@ -61,10 +52,13 @@ const pdfPrintPreview = (content) => {
     iframe.style.display = 'none'
     iframe.src = URL.createObjectURL(blob)
     document.body.appendChild(iframe)
-    iframe.contentWindow.focus()
-    iframe.contentWindow.print()
-  })
+
+      iframe.contentWindow.focus()
+      iframe.contentWindow.print()
+
+  }); 
 }
+
 
 export default {
   primaryStyle,

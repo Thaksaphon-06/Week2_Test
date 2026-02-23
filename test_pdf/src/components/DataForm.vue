@@ -1,10 +1,9 @@
 <template>
   <v-container class="py-10">
     <v-card class="mx-auto pa-10" max-width="1000" elevation="4">
-      <!-- <div class="text-center mb-10">
-        <h1 class="text-h5 font-weight-bold mb-2">โครงการเยาวชนแถวหน้า ครั้งที่ 12</h1>
-        <p class="text-subtitle-1">แบบพิมพ์ข้อมูลผู้สมัครแบบรายบุคคล</p>
-      </div> -->
+      <div class="text-center mb-10">
+        <h1 class="text-h5 font-weight-bold mb-2">แบบพิมพ์ข้อมูลผู้สมัครแบบรายบุคคล</h1>
+      </div>
 
       <v-form ref="formRef">
           <v-row justify="end" class="mb-2">
@@ -15,52 +14,152 @@
                   type="date"
                   variant="outlined"
                  density="compact"
+                 :rules="[v => !!v || 'กรุณากรอกวันที่']"
                 ></v-text-field>
             </v-col>
         </v-row>
         <h3 class="text-h6 font-weight-bold mb-4 text-blue-darken-4 border-bottom pb-2">1. ข้อมูลผู้สมัคร</h3>
         <v-row>
-          <v-col cols="12" md="8"><v-text-field v-model="form.fullName" label="ชื่อ-นามสกุล" variant="outlined" density="compact"></v-text-field></v-col>
-         <v-col cols="12" md="4"><v-text-field v-model="form.citizenId" label="เลขประจำตัวประชาชน" variant="outlined" density="compact"></v-text-field></v-col>
-        <v-col cols="12" md="4"><v-text-field v-model="form.birthDate" label="วัน/เดือน/ปี พ.ศ. เกิด" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="3"><v-text-field v-model="form.age" label="อายุ (ปี)" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="5"><v-text-field v-model="form.grade" label="เกรดผลการเรียน" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.educationLevel" label="ระดับชั้นที่เรียน" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.school" label="ชื่อสถาบันการศึกษา" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.gpax" label="เกรดเฉลี่ยสะสม"  variant="outlined" density="compact"></v-text-field></v-col>
+          <v-col cols="12" md="3">
+            <v-select
+              v-model="form.prefix"
+              :items="['นาย', 'นาง', 'นางสาว']"
+              label="คำนำหน้า"
+              variant="outlined"
+              density="compact"
+              :rules="[v => !!v || 'กรุณากรอกคำนำหน้า']"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.fullName" label="ชื่อ-นามสกุล" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกชื่อ-นามสกุล']" ></v-text-field></v-col>
+          <v-col cols="12" md="5"><v-text-field v-model="form.citizenId" label="เลขประจำตัวประชาชน" variant="outlined" density="compact" 
+            maxlength="13"       
+            counter="13"         
+            :rules="[ v => !!v || 'กรุณากรอกเลขประจำตัวประชาชน', v => (v && v.replace(/\D/g, '').length === 13) || 'กรุณากรอกให้ครบ 13 หลัก'
+          ]"
+          @input="form.citizenId = form.citizenId.replace(/\D/g, '').substring(0, 13)">
+        </v-text-field></v-col>
+          <v-col cols="12" md="4">
+      <v-text-field
+        v-model="form.birthDate"
+        label="วัน/เดือน/ปี พ.ศ. เกิด"
+        variant="outlined"
+        density="compact"
+        type="date"
+        :rules="[v => !!v || 'กรุณากรอกวัน/เดือน/ปี พ.ศ. เกิด']"
+      ></v-text-field>
+      </v-col>
+          <v-col cols="12" md="3"><v-text-field v-model="form.age" label="อายุ (ปี)" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกอายุ (ปี)']"></v-text-field></v-col>
+          <v-col cols="12" md="5"><v-text-field v-model="form.grade" label="เกรดผลการเรียน" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกเกรดผลการเรียน']"></v-text-field></v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.educationLevel" label="ระดับชั้นที่เรียน" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกระดับชั้นที่เรียน']"></v-text-field></v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.school" label="ชื่อสถาบันการศึกษา" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกชื่อสถาบันการศึกษา']"></v-text-field></v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.gpax" label="เกรดเฉลี่ยสะสม"  variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกเกรดเฉลี่ยสะสม']"></v-text-field></v-col>
           <v-col cols="12" md="6">
             <v-select
               v-model="form.contestType"
-              :items="['ผลการเรียนดีเด่น', 'ผลงานคลิปสั้น']"
+              :items="['ผลการเรียนดีเด่น', 'ผลงานวิชาการ', 'ผลงานนวัตกรรม']"
               label="ประเภทการส่งผลงาน"
               variant="outlined"
               density="compact"
+              :rules="[v => !!v || 'กรุณากรอกประเภทการส่งผลงาน']"
             ></v-select>
           </v-col>
         </v-row>
 
         <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-blue-darken-4 border-bottom pb-2">2. ที่อยู่ตามภูมิลำเนา</h3>
         <v-row>
-          <v-col cols="12" md="3"><v-text-field v-model="form.addressNo" label="บ้านเลขที่" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="3"><v-text-field v-model="form.villageNo" label="หมู่ที่" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.soi" label="ตรอก/ซอย" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-text-field v-model="form.road" label="ถนน" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-text-field v-model="form.subDistrict" label="ตำบล/แขวง" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-text-field v-model="form.district" label="อำเภอ/เขต" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12"><v-text-field v-model="form.province" label="จังหวัด/รหัสไปรษณีย์" variant="outlined" density="compact"></v-text-field></v-col>
+          <v-col cols="12" md="3"><v-text-field v-model="form.addressNo" label="บ้านเลขที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกบ้านเลขที่']"></v-text-field></v-col>
+          <v-col cols="12" md="3"><v-text-field v-model="form.villageNo" label="หมู่ที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกหมู่ที่']"></v-text-field></v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.soi" label="ตรอก/ซอย" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกตรอก/ซอย']"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.road" label="ถนน" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกถนน']"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.subDistrict" label="ตำบล/แขวง" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกตำบล/แขวง']"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.district" label="อำเภอ/เขต" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกอำเภอ/เขต']"></v-text-field></v-col>
+          <v-col cols="12" md="6">
+            <v-autocomplete
+              v-model="form.province"
+              :items="provinces"
+              label="จังหวัด"
+              variant="outlined"
+              density="compact"
+              auto-select-first
+              clearable
+              :rules="[v => !!v || 'กรุณากรอกจังหวัด']"
+            ></v-autocomplete>
+          </v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.postalCode" label="รหัสไปรษณีย์" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกรหัสไปรษณีย์']"></v-text-field></v-col>
         </v-row>
 
-        <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-blue-darken-4 border-bottom pb-2">3. ข้อมูลบิดาหรือมารดา</h3>
+            <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-blue-darken-4 border-bottom pb-2">3. ที่อยู่สำหรับจัดส่งเอกสาร</h3>
         <v-row>
-          <v-col cols="12" md="6"><v-text-field v-model="form.parentName" label="ชื่อ-สกุล" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.parentCitizenId" label="เลขประจำตัวประชาชน" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.parentPosition" label="ตำแหน่ง" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.parentDuration" label="ระยะเวลาปฏิบัติงาน" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-text-field v-model="form.parentPhone" label="มือถือ (ส่วนตัว)" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-text-field v-model="form.parentWorkPhone" label="โทรศัพท์ที่ทำงาน" variant="outlined" density="compact"></v-text-field></v-col>
-           <v-col cols="12" md="4"><v-text-field v-model="form.parentDepartment" label="สังกัด" variant="outlined" density="compact"></v-text-field></v-col>
-            <v-col cols="12" md="6"><v-text-field v-model="form.district" label="อำเภอ/เขต" variant="outlined" density="compact"></v-text-field></v-col>
-          <v-col cols="12" md="6"><v-text-field v-model="form.province" label="จังหวัด/รหัสไปรษณีย์" variant="outlined" density="compact"></v-text-field></v-col>
+          <v-col cols="12" md="3"><v-text-field v-model="form.sendaddressNo" label="บ้านเลขที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกบ้านเลขที่']"></v-text-field></v-col>
+          <v-col cols="12" md="3"><v-text-field v-model="form.sendvillageNo" label="หมู่ที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกหมู่ที่']"></v-text-field></v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.sendsoi" label="ตรอก/ซอย" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกตรอก/ซอย']"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.sendroad" label="ถนน" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกถนน']"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.sendsubDistrict" label="ตำบล/แขวง" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกตำบล/แขวง']"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.senddistrict" label="อำเภอ/เขต" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกอำเภอ/เขต']"></v-text-field></v-col>
+          <v-col cols="12" md="6">
+          <v-autocomplete
+            v-model="form.sendprovince"
+            :items="provinces"
+            label="จังหวัด"
+            variant="outlined"
+            density="compact"
+            auto-select-first
+            clearable
+            :rules="[v => !!v || 'กรุณากรอกจังหวัด']"
+          ></v-autocomplete>
+        </v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.sendpostalCode" label="รหัสไปรษณีย์" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกรหัสไปรษณีย์']"></v-text-field></v-col>
+        </v-row>
+
+        <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-blue-darken-4 border-bottom pb-2">4. ข้อมูลบิดาหรือมารดา</h3>
+        <v-row>
+          <v-col cols="12" md="3">
+            <v-select
+              v-model="form.parentPrefix"
+              :items="['นาย', 'นาง', 'นางสาว']"
+              label="คำนำหน้า"
+              variant="outlined"
+              density="compact"
+              :rules="[v => !!v || 'กรุณากรอกคำนำหน้า']"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.parentName" label="ชื่อ-สกุล" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกชื่อ-สกุล']"></v-text-field></v-col>
+          <v-col cols="12" md="5"><v-text-field v-model="form.parentCitizenId" label="เลขประจำตัวประชาชน" variant="outlined" density="compact"
+            maxlength="13"       
+            counter="13"         
+            :rules="[ v => !!v || 'กรุณากรอกเลขประจำตัวประชาชน', v => (v && v.replace(/\D/g, '').length === 13) || 'กรุณากรอกให้ครบ 13 หลัก'
+          ]"
+          @input="form.parentCitizenId = form.parentCitizenId.replace(/\D/g, '').substring(0, 13)"></v-text-field></v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.parentPosition" label="ตำแหน่ง" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกตำแหน่ง']"></v-text-field></v-col>
+          <v-col cols="12" md="6"><v-text-field v-model="form.parentDuration" label="ระยะเวลาปฏิบัติงาน" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกระยะเวลาปฏิบัติงาน']"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.parentPhone" label="มือถือ (ส่วนตัว)" variant="outlined" density="compact"
+            maxlength="10"       
+            counter="10"         
+            :rules="[ v => !!v || 'กรุณากรอกหมายเลขโทรศัพท์', v => (v && v.replace(/\D/g, '').length === 10) || 'กรุณากรอกให้ครบ 10 หลัก'
+          ]"
+          @input="form.parentPhone = form.parentPhone.replace(/\D/g, '').substring(0, 10)"></v-text-field></v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.parentWorkPhone" label="โทรศัพท์ที่ทำงาน" variant="outlined" density="compact"
+             maxlength="10"       
+            counter="10"         
+            :rules="[ v => !!v || 'กรุณากรอกหมายเลขโทรศัพท์', v => (v && v.replace(/\D/g, '').length === 10) || 'กรุณากรอกให้ครบ 10 หลัก'
+          ]"
+          @input="form.parentPhone = form.parentPhone.replace(/\D/g, '').substring(0, 10)"
+            ></v-text-field></v-col>
+           <v-col cols="12" md="4"><v-text-field v-model="form.parentDepartment" label="สังกัด" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกสังกัด']"></v-text-field></v-col>
+            <v-col cols="12" md="4"><v-text-field v-model="form.parentdistrict" label="อำเภอ/เขต" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกอำเภอ/เขต']"></v-text-field></v-col>
+          <v-col cols="12" md="4">
+            <v-autocomplete 
+              :items="provinces" 
+              v-model="form.parentprovince" 
+              label="จังหวัด" 
+              variant="outlined" 
+              density="compact"
+              auto-select-first
+              clearable
+              :rules="[v => !!v || 'กรุณากรอกจังหวัด']"
+            ></v-autocomplete>
+          </v-col>
+          <v-col cols="12" md="4"><v-text-field v-model="form.parentpostalCode" label="รหัสไปรษณีย์" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกรหัสไปรษณีย์']"></v-text-field></v-col>
         </v-row>
 
         <v-divider class="my-6"></v-divider>
@@ -78,22 +177,24 @@
 import { ref, reactive, onMounted, watch } from 'vue'
 import pdfUtils from '../utils/pdf'
 import imageData from '../assets/image/image.json'
-
-
-const STORAGE_KEY = 'applicant_form_data'
-
+import provinces from '../utils/provinces.js'
+import generatePDF from '../utils/printpdf'
+import Swal from 'sweetalert2'
 
 
 const formRef = ref(null)
 
+
 const form = reactive({
   date: '',
+  prefix: '',
   fullName: '',
   citizenId: '',
   birthDate: '',
   age: '',
   educationLevel: '',
   gpax: '', 
+  grade:'',
   school: '',
   addressNo: '',
   villageNo: '',
@@ -102,276 +203,90 @@ const form = reactive({
   subDistrict: '',
   district: '',
   province: '',
+  postalCode: '',
+  sendaddressNo: '',
+  sendvillageNo: '',
+  sendsoi: '',
+  sendroad: '',
+  sendsubDistrict: '',
+  senddistrict: '',
+  sendprovince: '',
+  sendpostalCode: '',
+  parentPrefix: '',
   parentName: '',
   parentCitizenId: '',
   parentPosition: '',
   parentDuration: '',
   parentDepartment: '',
+  parentdistrict: '',
+  parentprovince: '',
+  parentpostalCode:'',
   parentPhone: '',
   parentWorkPhone: '',
   contestType: '',
   projectTitle: '',
-  grade:''
 })
 
 onMounted(() => {
-  const savedData = localStorage.getItem(STORAGE_KEY)
-  if (savedData) {
-    try {
-      Object.assign(form, JSON.parse(savedData))
-    } catch (e) {
-      console.error('Error parsing saved form data', e)
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  form.date = `${year}-${month}-${day}`;
+}); 
+ 
+watch(() => form.birthDate, (newVal) => {
+  if (newVal) {
+    const birthDate = new Date(newVal);
+    const currentYear = new Date().getFullYear();
+    if (!isNaN(birthDate.getFullYear())) {
+      form.age = (currentYear + 543) - (birthDate.getFullYear() + 543);
     }
   }
-})
+});
 
-watch(form, (newVal) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(newVal))
-}, { deep: true })
+const printPDF = async () => {
 
-const formatCitizenId = (id) => {
-  if (!id) return ''
-  const cleanId = id.replace(/\D/g, '')
-  if (cleanId.length !== 13) return id
-  return `${cleanId.substring(0, 1)}-${cleanId.substring(1, 5)}-${cleanId.substring(5, 10)}-${cleanId.substring(10, 12)}-${cleanId.substring(12, 13)}`
+  const { valid } = await formRef.value.validate()
+  if (!valid) {
+    Swal.fire({
+      icon: 'error',
+      title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+      text: 'โปรดตรวจสอบข้อมูลในแบบฟอร์มอีกครั้ง',
+      confirmButtonText: 'ตกลง',
+      // confirmButtonColor: '#0D47A1',
+    })
+    return
+  }
+
+
+try {
+  generatePDF(form, imageData, pdfUtils)
+
+  Swal.close()
+  Swal.fire({
+    icon: 'success',
+    title: 'สร้างเอกสารสำเร็จ',
+    text: 'เอกสารถูกสร้างเรียบร้อยแล้ว',
+    confirmButtonText: 'ตกลง',
+    confirmButtonColor: '#0D47A1',
+  })
 }
-
-const formatPhoneNumber = (phone) => {
-  if (!phone) return ''
-  const cleanPhone = phone.replace(/\D/g, '')
-  if (cleanPhone.length === 10) {
-    return `${cleanPhone.substring(0, 3)}-${cleanPhone.substring(3, 6)}-${cleanPhone.substring(6, 10)}`
-  }
-  if (cleanPhone.length === 9) {
-    return `${cleanPhone.substring(0, 2)}-${cleanPhone.substring(2, 5)}-${cleanPhone.substring(5, 9)}`
-  }
-  return phone
+catch (error) {
+  Swal.fire({
+    icon: 'error',
+    title: 'เกิดข้อผิดพลาด',
+    text: 'ไม่สามารถสร้างเอกสารได้',
+    confirmButtonText: 'ตกลง',
+    confirmButtonColor: '#0D47A1',
+  })  
 }
+  
 
- const formatDateToThai = (dateString) => {
-  if (!dateString) return { day: '', month: '', year: '' }
-   const date = new Date(dateString)
-  const day = date.getDate()
-   const months = [
-     'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
-     'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
-  ]
-   const month = months[date.getMonth()]
-   const year = date.getFullYear() + 543
-   return { day, month, year }
- }
-
- const printPDF = () => {
-   const dateData = formatDateToThai(form.date)
-   const docDefinition = {
-     defaultStyle: pdfUtils.primaryStyle(),
-     pageMargins: [60, 30, 60, 30], 
-     content: [
-       {
-    image: imageData.logo,
-     width: 60, 
-     absolutePosition: { x: 50, y: 30 },
-   },
-      
-       
-     { text: 'โครงการเยาวชนแถวหน้า ครั้งที่ 12', alignment: 'center', bold: true, fontSize: 16, marginTop: 30 },
-      { text: 'ผลการเรียนดีเด่น และผลงานคลิปสั้น', alignment: 'center', bold: true, marginTop: 4 },
-      { text: `หัวข้อ “พัฒนาอย่างก้าวกระโดด ด้วย Ai เพื่อพัฒนาชีวิตอย่างยั่งยืนในอนาคต”`, alignment: 'center', bold: true, marginTop: 4 },
-       { 
-       text: [
-         { text: 'วันที่ ' }, 
-          { text: `${dateData.day} `, bold: true },
-         { text: `${dateData.month}` , bold: true }, 
-         { text: ' พ.ศ. ' },
-         { text: `${dateData.year}`, bold: true }
-       ], 
-         alignment: 'right', marginTop: 7, marginBottom: 7
-     },
-
-      {
-        marginTop: 2,
-        columns: [
-          { text: [{ text: 'ชื่อ-นามสกุล  '}, { text: form.fullName || '', bold: true } ], width: '*', marginLeft: 45, },
-          { text: [{ text: 'เลขประจำตัวประชาชน  '}, { text: formatCitizenId(form.citizenId) || '', bold: true } ], width: 230, marginLeft: 10, }
-        ]
-      },
-
-      {
-        marginTop: 2,
-        columns: [
-          { text: [{ text: 'วัน/เดือน/ปี พ.ศ. เกิด  '}, { text: form.birthDate || '', bold: true }], width: '*', },  
-          { text: [{ text: 'อายุ  '}, { text: form.age || '', bold: true }, { text: form.age ? ' ปี (นับตาม พ.ศ. เกิด)' : '' }], width: 230, marginLeft: 10, }
-        ]
-      },
-
-      {
-        marginTop: 2,
-        columnGap: 15,
-        columns: [
-          { text: [{ text: 'เกรดผลการเรียน  '}, { text: form.grade || '', bold: true }], width: 'auto', }, 
-          { text: [{ text: 'ระดับชั้นที่เรียน  '}, { text: form.educationLevel || '', bold: true }], width: 'auto', },
-          { text: [{ text: 'ชื่อสถาบันการศึกษา  '}, { text: form.school || '', bold: true }], width: 'auto', }
-        ]
-      },
-
-       {
-        marginTop: 2,
-        columns: [
-          { text: 'ที่อยู่ตามภูมิลำเนาของผู้สมัครผู้รับทุน', width: 'auto', marginLeft: 45, },
-          { text: [{ text: 'บ้านเลขที่     '}, { text: form.addressNo || '', bold: true }], width: 'auto', marginLeft: 25, },
-          { text: [{ text: 'หมู่ที่     '}, { text: form.villageNo || '', bold: true }], width: 'auto', marginLeft: 20, },
-        ]
-      },
-      {
-        marginTop: 2,
-        columns: [
-          { text: [{ text: 'ตรอก/ซอย        '}, { text: form.soi || '', bold: true }], width: '*', },
-          { text: [{ text: 'ถนน     '}, { text: form.road || '', bold: true }], width: 230, },
-        ]
-      },
-      {
-        marginTop: 2,
-        columnGap: 10,
-        columns: [
-          { text: [{ text: 'ตำบล/แขวง     '}, { text: form.subDistrict || '', bold: true }], width: '*', },
-          { text: [{ text: 'อำเภอ/เขต  '}, { text: form.district || '', bold: true }], width: '*', },
-          { text: [{ text: 'จังหวัด  '}, { text: form.province || '', bold: true }], width: '*', }
-        ]
-      },
-
-      {
-        marginTop: 2,
-        columns: [
-          { text: 'ที่อยู่สำหรับจัดส่งเอกสารของผู้สมัครผู้รับทุน', width: 'auto', marginLeft: 45, },
-          { text: [{ text: 'บ้านเลขที่     '}, { text: form.addressNo || '', bold: true }], width: 'auto', marginLeft:0, },
-          { text: [{ text: 'หมู่ที่     '}, { text: form.villageNo || '', bold: true }], width: 'auto', marginLeft:  20, },
-        ] 
-      },
-      {
-        marginTop: 2,
-        columns: [
-          { text: [{ text: 'ตรอก/ซอย        '}, { text: form.soi || '', bold: true }], width: '*', },
-          { text: [{ text: 'ถนน     '}, { text: form.road || '', bold: true }], width: 230, },
-        ]
-      },
-      {
-        marginTop: 2,
-        columnGap: 10,
-        columns: [
-          { text: [{ text: 'ตำบล/แขวง  '}, { text: form.subDistrict || '', bold: true }], width: '*', },
-          { text: [{ text: 'อำเภอ/เขต  '}, { text: form.district || '', bold: true }], width: '*', },
-          { text: [{ text: 'จังหวัด  '}, { text: form.province || '', bold: true }], width: '*', }
-        ]
-      },
-
-      { 
-        text: 'ข้อมูลของบิดาหรือมารดา (บุคลากรประเภทข้าราชการ ลูกจ้างประจำ พนักงานราชการ สมาชิกกองอาสารักษาดินแดน กำนัน ผู้ใหญ่บ้าน และลูกจ้างเหมาบริการ ที่ปฏิบัติงานติดต่อกันมาแล้วไม่น้อยกว่า 1 ปี นับถึงวันปิดรับสมัครของกรมการปกครอง)', 
-        fontSize: 16, 
-        marginTop: 5,
-        marginBottom: 5,
-        lineHeight: 1.35,
-        leadingIndent: 40
-      },
-      {
-        columns: [
-          { text: [{ text: 'ชื่อ-สกุล  '}, { text: form.parentName || '', bold: true }], width: '*', },
-          { text: [{ text: 'เลขประจำตัวประชาชน  '}, { text: formatCitizenId(form.parentCitizenId) || '', bold: true }], width: 230, }
-        ]
-      },
-      {
-        marginTop: 2,
-        columns: [
-          { text: [{ text: 'ปัจจุบันดำรงตำแหน่ง  '}, { text: form.parentPosition || '', bold: true }], width: '*', },
-          { text: [{ text: 'ระยะเวลาปฏิบัติงาน  '}, { text: form.parentDuration || '', bold: true }], width: 230, }
-        ]
-      },
-      {
-        marginTop: 2,
-        columns: [
-          { text: [{ text: 'โทรศัพท์มือถือ (ส่วนตัว)  '}, { text: formatPhoneNumber(form.parentPhone) || '', bold: true }], width: '*', },
-          { text: [{ text: 'โทรศัพท์ (ที่ทำงาน)      '}, { text: formatPhoneNumber(form.parentWorkPhone) || '', bold: true }], width: 230, marginLeft: 20, }
-        ]
-      },
-      {
-        marginTop: 2,
-        columnGap: 10,
-        columns: [
-          { text: [{ text: 'สังกัด  '}, { text: form.parentDepartment || '', bold: true }], width: '*', },
-          { text: [{ text: 'อำเภอ/เขต  '}, { text: form.district || '', bold: true }], width: '*', },
-          { text: [{ text: 'จังหวัด  '}, { text: form.province || '', bold: true }], width: '*', }
-        ]
-      },
-      { 
-        text: [
-          { text: 'ประสงค์สมัครและส่งผลงานประกวดประเภท ' }, 
-          { text: form.contestType || '', bold: true },
-          { text: ' เกรดเฉลี่ยสะสม ' }, 
-          { text: form.gpax || '', bold: true }
-        ], 
-        marginTop: 2,
-        lineHeight: 1.35
-      },
-
-{
-  marginTop: 70,
-  alignment: 'center',
-  layout: 'noBorders',
-  table: {
-    widths: ['*'],
-    body: [
-      [
-        {
-          text: [
-            { text: 'ลายมือชื่อ ', bold: true },
-            { text: '...............................................', bold: true },
-            { text: ' ผู้สมัคร', bold: true }
-          ],
-          alignment: 'center'
-        }
-      ],
-      [
-        {
-          text: '(นางสาวทดสอบ ใจดีดี)',
-          bold: true,
-          alignment: 'center',
-          margin: [0, 5, 0, 5] 
-        }
-      ],
-      [
-        {
-          text: [
-            { text: 'ลายมือชื่อ ', bold: true },
-            { text: '............................................', bold: true },
-            { text: ' เจ้าหน้าที่ผู้รับคำขอ', bold: true }
-          ],
-          alignment: 'center'
-        }
-      ],
-      [
-        {
-          text: '(นางสาวเจ้าหน้าที่ ทดสอบ)',
-          bold: true,
-          alignment: 'center',
-          margin: [0, 2, 0, 0]
-        }
-      ],
-      [
-        {
-          text: 'เจ้าหน้าที่อำเภอ',
-          bold: true,
-          alignment: 'center'
-        }
-      ]
-    ]
-  }
-}
-    ]
-  }
-
-  pdfUtils.pdfPrintPreview(docDefinition)
 }
 
 </script>
+
 
 <style scoped>
 .border-bottom {
