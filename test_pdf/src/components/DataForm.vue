@@ -254,7 +254,7 @@ const printPDF = async () => {
       title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
       text: 'โปรดตรวจสอบข้อมูลในแบบฟอร์มอีกครั้ง',
       confirmButtonText: 'ตกลง',
-      // confirmButtonColor: '#0D47A1',
+      confirmButtonColor: '#0D47A2',
     })
     return
   }
@@ -290,6 +290,6 @@ catch (error) {
 
 <style scoped>
 .border-bottom {
-  border-bottom: 2px solid #0D47A1;
+  border-bottom: 2px solid rgb(13, 161, 70);
 }
 </style>
