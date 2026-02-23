@@ -2,7 +2,7 @@
   <v-container class="py-10">
     <v-card class="mx-auto pa-10" max-width="1000" elevation="4">
       <div class="text-center mb-10">
-        <h1 class="text-h5 font-weight-bold mb-2">แบบพิมพ์ข้อมูลผู้สมัครแบบรายบุคคล</h1>
+        <h1 class="text-h5 font-weight-bold text-green-darken-4 mb-2">แบบพิมพ์ข้อมูลผู้สมัครแบบรายบุคคล</h1>
       </div>
 
       <v-form ref="formRef">
@@ -18,7 +18,7 @@
                 ></v-text-field>
             </v-col>
         </v-row>
-        <h3 class="text-h6 font-weight-bold mb-4 text-blue-darken-4 border-bottom pb-2">1. ข้อมูลผู้สมัคร</h3>
+        <h3 class="text-h6 font-weight-bold mb-4 text-green-darken-4 border-bottom pb-2">1. ข้อมูลผู้สมัคร</h3>
         <v-row>
           <v-col cols="12" md="3">
             <v-select
@@ -65,7 +65,7 @@
           </v-col>
         </v-row>
 
-        <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-blue-darken-4 border-bottom pb-2">2. ที่อยู่ตามภูมิลำเนา</h3>
+        <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-green-darken-4 border-bottom pb-2">2. ที่อยู่ตามภูมิลำเนา</h3>
         <v-row>
           <v-col cols="12" md="3"><v-text-field v-model="form.addressNo" label="บ้านเลขที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกบ้านเลขที่']"></v-text-field></v-col>
           <v-col cols="12" md="3"><v-text-field v-model="form.villageNo" label="หมู่ที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกหมู่ที่']"></v-text-field></v-col>
@@ -88,7 +88,7 @@
           <v-col cols="12" md="6"><v-text-field v-model="form.postalCode" label="รหัสไปรษณีย์" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกรหัสไปรษณีย์']"></v-text-field></v-col>
         </v-row>
 
-            <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-blue-darken-4 border-bottom pb-2">3. ที่อยู่สำหรับจัดส่งเอกสาร</h3>
+            <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-green-darken-4 border-bottom pb-2">3. ที่อยู่สำหรับจัดส่งเอกสาร</h3>
         <v-row>
           <v-col cols="12" md="3"><v-text-field v-model="form.sendaddressNo" label="บ้านเลขที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกบ้านเลขที่']"></v-text-field></v-col>
           <v-col cols="12" md="3"><v-text-field v-model="form.sendvillageNo" label="หมู่ที่" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกหมู่ที่']"></v-text-field></v-col>
@@ -111,7 +111,7 @@
           <v-col cols="12" md="6"><v-text-field v-model="form.sendpostalCode" label="รหัสไปรษณีย์" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกรหัสไปรษณีย์']"></v-text-field></v-col>
         </v-row>
 
-        <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-blue-darken-4 border-bottom pb-2">4. ข้อมูลบิดาหรือมารดา</h3>
+        <h3 class="text-h6 font-weight-bold mt-8 mb-4 text-green-darken-4 border-bottom pb-2">4. ข้อมูลบิดาหรือมารดา</h3>
         <v-row>
           <v-col cols="12" md="3">
             <v-select
@@ -164,7 +164,7 @@
 
         <v-divider class="my-6"></v-divider>
         <div class="d-flex justify-end gap-2">
-          <v-btn color="blue-darken-4" @click="printPDF">
+          <v-btn color="green-darken-4" @click="printPDF">
             <v-icon start>mdi-printer</v-icon> พิมพ์ PDF
           </v-btn>
         </div>
@@ -254,7 +254,7 @@ const printPDF = async () => {
       title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
       text: 'โปรดตรวจสอบข้อมูลในแบบฟอร์มอีกครั้ง',
       confirmButtonText: 'ตกลง',
-      confirmButtonColor: '#0D47A2',
+      // confirmButtonColor: '#0D47A2',
     })
     return
   }
@@ -290,6 +290,6 @@ catch (error) {
 
 <style scoped>
 .border-bottom {
-  border-bottom: 2px solid rgb(13, 161, 70);
+  border-bottom: 2px solid rgb(8, 143, 82);
 }
 </style>
