@@ -31,13 +31,16 @@
             ></v-select>
           </v-col>
           <v-col cols="12" md="4"><v-text-field v-model="form.fullName" label="ชื่อ-นามสกุล" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกชื่อ-นามสกุล']" ></v-text-field></v-col>
-          <v-col cols="12" md="5"><v-text-field v-model="form.citizenId" label="เลขประจำตัวประชาชน" variant="outlined" density="compact" 
-            maxlength="13"       
-            counter="13"         
-            :rules="[ v => !!v || 'กรุณากรอกเลขประจำตัวประชาชน', v => (v && v.replace(/\D/g, '').length === 13) || 'กรุณากรอกให้ครบ 13 หลัก'
-          ]"
-          @input="form.citizenId = form.citizenId.replace(/\D/g, '').substring(0, 13)">
-        </v-text-field></v-col>
+          <v-col cols="12" md="5">
+        <v-text-field
+          v-model="form.citizenId"
+          v-maska="'#-####-#####-##-#'"
+          label="เลขประจำตัวประชาชน"
+          variant="outlined"
+          density="compact"
+          :rules="rules"
+        ></v-text-field>
+      </v-col>
           <v-col cols="12" md="4">
       <v-text-field
         v-model="form.birthDate"
@@ -124,27 +127,39 @@
             ></v-select>
           </v-col>
           <v-col cols="12" md="4"><v-text-field v-model="form.parentName" label="ชื่อ-สกุล" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกชื่อ-สกุล']"></v-text-field></v-col>
-          <v-col cols="12" md="5"><v-text-field v-model="form.parentCitizenId" label="เลขประจำตัวประชาชน" variant="outlined" density="compact"
-            maxlength="13"       
-            counter="13"         
-            :rules="[ v => !!v || 'กรุณากรอกเลขประจำตัวประชาชน', v => (v && v.replace(/\D/g, '').length === 13) || 'กรุณากรอกให้ครบ 13 หลัก'
-          ]"
-          @input="form.parentCitizenId = form.parentCitizenId.replace(/\D/g, '').substring(0, 13)"></v-text-field></v-col>
+          <v-col cols="12" md="5">
+          <v-text-field
+          v-model="form.parentCitizenId"
+          v-maska="'#-####-#####-##-#'"
+          label="เลขประจำตัวประชาชน"
+          variant="outlined"
+          density="compact"
+          :rules="rules"
+        ></v-text-field></v-col>
           <v-col cols="12" md="6"><v-text-field v-model="form.parentPosition" label="ตำแหน่ง" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกตำแหน่ง']"></v-text-field></v-col>
           <v-col cols="12" md="6"><v-text-field v-model="form.parentDuration" label="ระยะเวลาปฏิบัติงาน" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกระยะเวลาปฏิบัติงาน']"></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-text-field v-model="form.parentPhone" label="มือถือ (ส่วนตัว)" variant="outlined" density="compact"
-            maxlength="10"       
-            counter="10"         
-            :rules="[ v => !!v || 'กรุณากรอกหมายเลขโทรศัพท์', v => (v && v.replace(/\D/g, '').length === 10) || 'กรุณากรอกให้ครบ 10 หลัก'
-          ]"
-          @input="form.parentPhone = form.parentPhone.replace(/\D/g, '').substring(0, 10)"></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-text-field v-model="form.parentWorkPhone" label="โทรศัพท์ที่ทำงาน" variant="outlined" density="compact"
-             maxlength="10"       
-            counter="10"         
-            :rules="[ v => !!v || 'กรุณากรอกหมายเลขโทรศัพท์', v => (v && v.replace(/\D/g, '').length === 10) || 'กรุณากรอกให้ครบ 10 หลัก'
-          ]"
-          @input="form.parentPhone = form.parentPhone.replace(/\D/g, '').substring(0, 10)"
-            ></v-text-field></v-col>
+          <v-col cols="12" md="4">
+            <v-text-field 
+              v-model="form.parentPhone" 
+              v-maska="'###-###-####'"
+              label="มือถือ (ส่วนตัว)" 
+              variant="outlined" 
+              density="compact"
+              maxlength="12"
+              :rules="phoneRules"
+            ></v-text-field>
+          </v-col>
+         <v-col cols="12" md="4">
+          <v-text-field 
+            v-model="form.parentWorkPhone" 
+            v-maska="'###-###-####'"
+            label="โทรศัพท์ที่ทำงาน" 
+            variant="outlined" 
+            density="compact"
+            maxlength="12"
+            :rules="phoneRules"
+          ></v-text-field>
+        </v-col>
            <v-col cols="12" md="4"><v-text-field v-model="form.parentDepartment" label="สังกัด" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกสังกัด']"></v-text-field></v-col>
             <v-col cols="12" md="4"><v-text-field v-model="form.parentdistrict" label="อำเภอ/เขต" variant="outlined" density="compact" :rules="[v => !!v || 'กรุณากรอกอำเภอ/เขต']"></v-text-field></v-col>
           <v-col cols="12" md="4">
@@ -180,6 +195,7 @@ import imageData from '../assets/image/image.json'
 import provinces from '../utils/provinces.js'
 import generatePDF from '../utils/printpdf'
 import Swal from 'sweetalert2'
+import { vMaska } from 'maska/vue'
 
 
 const formRef = ref(null)
@@ -244,6 +260,16 @@ watch(() => form.birthDate, (newVal) => {
     }
   }
 });
+
+const rules = [
+  v => !!v || 'กรุณากรอกเลขประจำตัวประชาชน',
+  v => (v && v.length === 17) || 'กรุณากรอกให้ครบ 13 หลัก'
+]
+
+const phoneRules = [
+  v => !!v || 'กรุณากรอกหมายเลขโทรศัพท์',
+  v => (v && v.length === 12) || 'กรุณากรอกให้ครบ 10 หลัก'
+]
 
 const printPDF = async () => {
 
