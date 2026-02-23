@@ -1,0 +1,9 @@
+diff a/test_pdf/src/components/DataForm.vue b/test_pdf/src/components/DataForm.vue	(rejected hunks)
+@@ -254,6 +254,7 @@
+       title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+       text: 'โปรดตรวจสอบข้อมูลในแบบฟอร์มอีกครั้ง',
+       confirmButtonText: 'ตกลง',
++      confirmButtonColor: '#0D47A2',
+     })
+     return
+   }
