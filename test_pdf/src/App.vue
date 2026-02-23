@@ -7,5 +7,5 @@
 </template>
 
 <script setup>
-import DataForm from './components/DataForm.vue'
+import DataForm from './pages/DataForm.vue'
 </script>
